@@ -1,0 +1,10 @@
+.streamer-pronouns {
+  color: var(--color-text-base);
+  line-height: 1.4;
+  font-size: 1.6rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+p[data-a-target="player-info-title"] .streamer-pronouns {
+  margin-left: .5rem;
+}
