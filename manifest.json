@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Streamer Pronouns",
+  "description": "Display Pronouns on Twitch Channels",
+  "author": "Y.Heckmann",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": ["*://www.twitch.tv/*", "*://twitch.tv/*"],
+      "js": ["main.js"],
+      "css": ["style.css"]
+    }
+  ]
+}
