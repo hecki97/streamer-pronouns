@@ -74,8 +74,8 @@ async function main() {
 
   streamer = await getStreamerObj();
 
-  const observer = new MutationObserver(async (mutationRecords) => {
-    mutationRecords.forEach(async (node) => {
+  const observer = new MutationObserver(async (mutationRecords) => Promise.all(
+    mutationRecords.map(async (node) => {
       const [addedNode] = node.addedNodes;
 
       if (document.location.pathname !== streamer.url) {
@@ -102,8 +102,8 @@ async function main() {
           container.after(getPronounsElement(streamer.pronouns));
         }
       }
-    });
-  });
+    }),
+  ));
   observer.observe(rootElement, { childList: true, subtree: true });
 }
 
