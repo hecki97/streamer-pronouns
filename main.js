@@ -1,6 +1,24 @@
 const PRONOUNS_API = 'https://pronouns.alejo.io/api/';
 const STREAMER_NAME_SELECTOR = '.channel-info-content a:not(.tw-halo)';
 const FULLSCREEN_THEATER_STREAMER_SELECTOR = 'p[data-a-target="player-info-title"]';
+const PRONOUNS_LIST_FALLBACK = [
+  { name: 'aeaer', display: 'Ae/Aer' },
+  { name: 'any', display: 'Any' },
+  { name: 'eem', display: 'E/Em' },
+  { name: 'faefaer', display: 'Fae/Faer' },
+  { name: 'hehim', display: 'He/Him' },
+  { name: 'heshe', display: 'He/She' },
+  { name: 'hethem', display: 'He/They' },
+  { name: 'itits', display: 'It/Its' },
+  { name: 'other', display: 'Other' },
+  { name: 'perper', display: 'Per/Per' },
+  { name: 'sheher', display: 'She/Her' },
+  { name: 'shethem', display: 'She/They' },
+  { name: 'theythem', display: 'They/Them' },
+  { name: 'vever', display: 'Ve/Ver' },
+  { name: 'xexem', display: 'Xe/Xem' },
+  { name: 'ziehir', display: 'Zie/Hir' },
+];
 
 const pronounIdMap = new Map();
 let streamer = null;
@@ -65,13 +83,21 @@ function getPronounsElement(pronouns) {
 // FIXME: Pronouns get not applied when clicking on joining stream from twitch home (sidebar or video player)
 // FIXME: Loading channel with no pronouns and then going back to cached channel with pronouns breaks extension (no container is generated when loading first page)
 
+async function initializePronounsMap() {
+  let pronouns;
+  try {
+    pronouns = await get(`${PRONOUNS_API}pronouns`);
+  } catch (error) {
+    console.warn(`Pronoun map initialisation failed due to: '${error.name}: ${error.message}'`);
+    console.log('Falling back to hardcoded list');
+    pronouns = PRONOUNS_LIST_FALLBACK;
+  }
+  pronouns.forEach(({ name, display }) => pronounIdMap.set(name, display));
+}
+
 async function main() {
   const rootElement = await elementReady('#root');
-
-  // Initialize Pronouns ID map
-  const pronouns = await get(`${PRONOUNS_API}pronouns`);
-  pronouns.forEach(({ name, display }) => pronounIdMap.set(name, display));
-
+  await initializePronounsMap();
   streamer = await getStreamerObj();
 
   const observer = new MutationObserver(async (mutationRecords) => Promise.all(
