@@ -98,13 +98,22 @@ async function initializePronounsMap() {
 async function main() {
   const rootElement = await elementReady('#root');
   await initializePronounsMap();
-  streamer = await getStreamerObj();
 
-  const observer = new MutationObserver(async (mutationRecords) => Promise.all(
+  // Don't fetch streamer object on homepage
+  if (document.location.pathname !== '/') {
+    streamer = await getStreamerObj();
+  }
+
+  const observer = new MutationObserver((mutationRecords) => Promise.all(
     mutationRecords.map(async (node) => {
       const [addedNode] = node.addedNodes;
 
-      if (document.location.pathname !== streamer.url) {
+      // Disable logic on homepage
+      if (document.location.pathname === '/') {
+        return;
+      }
+
+      if (document.location.pathname !== streamer?.url) {
         streamer = await getStreamerObj();
         // Url changed but streamer link immeditaley exists -> Page was cached
         const pronounContainer = document.querySelector('.streamer-pronouns');
