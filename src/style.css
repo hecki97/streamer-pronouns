@@ -3,6 +3,7 @@
   line-height: 1.4;
   font-size: 1.6rem;
   font-weight: var(--font-weight-semibold);
+  align-self: center;
 }
 
 p[data-a-target="player-info-title"] .streamer-pronouns {
