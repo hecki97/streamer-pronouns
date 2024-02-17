@@ -12,8 +12,10 @@ async function main() {
   let pronouns = await Pronouns.get(name);
 
   const observer = new MutationObserver((mutationRecords) => Promise.all(
-    mutationRecords.map(async (node) => {
-      const [addedNode] = node.addedNodes;
+    mutationRecords
+      .map((node) => node.addedNodes[0])
+      .filter((addedNode) => addedNode?.nodeName === 'DIV')
+      .map(async (addedNode) => {
         const { pathname } = document.location;
         if (pathname !== currentPath) {
           currentPath = pathname;
@@ -23,18 +25,16 @@ async function main() {
           PronounsDomElement.update(pronouns);
         }
 
-      // Inject streamer pronouns into player info in theater and fullscreen mode
-      if (addedNode?.nodeName === 'DIV' && addedNode?.querySelector(FULLSCREEN_THEATER_STREAMER_SELECTOR)) {
-          PronounsDomElement.inject(FULLSCREEN_THEATER_STREAMER_SELECTOR);
+        // Inject streamer pronouns into player info in theater and fullscreen mode
+        if (addedNode?.querySelector(FULLSCREEN_THEATER_STREAMER_SELECTOR)) {
+          PronounsDomElement.inject(FULLSCREEN_THEATER_STREAMER_SELECTOR, pronouns);
         }
-      }
 
-      // Inject streamer pronouns when channel is loaded for the first time
-      if (addedNode?.nodeName === 'DIV' && addedNode?.querySelector('h1.tw-title')) {
+        // Inject streamer pronouns when channel is loaded for the first time
+        if (addedNode?.querySelector('h1.tw-title')) {
           PronounsDomElement.inject(STREAMER_NAME_SELECTOR, pronouns);
         }
-      }
-    }),
+      }),
   ));
   observer.observe(rootElement, { childList: true, subtree: true });
 }
