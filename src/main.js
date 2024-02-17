@@ -1,45 +1,12 @@
+import { elementReady, get } from './util';
 import PRONOUNS_FALLBACK_ARRAY from './pronouns-fallback';
+
 const PRONOUNS_API = 'https://pronouns.alejo.io/api/';
 const STREAMER_NAME_SELECTOR = '.channel-info-content a:not(.tw-halo)';
 const FULLSCREEN_THEATER_STREAMER_SELECTOR = 'p[data-a-target="player-info-title"]';
 
 const pronounIdMap = new Map();
 let streamer = null;
-
-/* #region Util Functions */
-
-/**
- * Waits for an element satisfying selector to exist, then resolves promise with the element.
- *
- * Based on this gist by [jwilson8767](https://gist.github.com/jwilson8767): https://gist.github.com/jwilson8767/db379026efcbd932f64382db4b02853e
- *
- * @param {string} selector valid html selector
- * @returns {Promise<Element>} HTML element
- */
-function elementReady(selector) {
-  return new Promise((resolve) => {
-    Array.from(document.querySelectorAll(selector)).forEach((element) => {
-      resolve(element);
-    });
-
-    const mutObserver = new MutationObserver((_, observer) => {
-      // Query for elements matching the specified selector
-      Array.from(document.querySelectorAll(selector)).forEach((element) => {
-        resolve(element);
-        // Once we have resolved we don't need the observer anymore.
-        observer.disconnect();
-      });
-    });
-
-    mutObserver.observe(document.documentElement, { childList: true, subtree: true });
-  });
-}
-
-async function get(url) {
-  return (await fetch(url)).json();
-}
-
-/* #endregion */
 
 async function fetchPronouns(name) {
   const [user] = await get(`${PRONOUNS_API}users/${name}`);
