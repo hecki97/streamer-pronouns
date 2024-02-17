@@ -7,7 +7,7 @@
   "content_scripts": [
     {
       "matches": ["*://www.twitch.tv/*", "*://twitch.tv/*"],
-      "js": ["main.js"],
+      "js": ["bundle.js"],
       "css": ["style.css"]
     }
   ]
