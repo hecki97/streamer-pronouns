@@ -40,7 +40,7 @@ async function initializePronounsMap() {
   } catch (error) {
     console.warn(`Pronoun map initialisation failed due to: '${error.name}: ${error.message}'`);
     console.log('Falling back to hardcoded list');
-    pronouns = PRONOUNS_LIST_FALLBACK;
+    pronouns = PRONOUNS_FALLBACK_ARRAY;
   }
   pronouns.forEach(({ name, display }) => pronounIdMap.set(name, display));
 }
