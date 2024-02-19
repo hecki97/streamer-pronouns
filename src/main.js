@@ -1,6 +1,6 @@
 import { elementReady } from './util';
 import PronounsDomElement from './pronouns-dom-element';
-import { FULLSCREEN_THEATER_STREAMER_SELECTOR, STREAMER_NAME_SELECTOR } from './config';
+import { FULLSCREEN_THEATER_STREAMER_SELECTOR, STREAMER_TITLE_CONTAINER_SELECTOR, STREAMER_TITLE_SELECTOR } from './config';
 import Pronouns from './pronouns';
 
 async function main() {
@@ -31,8 +31,8 @@ async function main() {
         }
 
         // Inject streamer pronouns when channel is loaded for the first time
-        if (addedNode?.querySelector('h1.tw-title')) {
-          PronounsDomElement.inject(STREAMER_NAME_SELECTOR, pronouns);
+        if (addedNode?.querySelector(STREAMER_TITLE_SELECTOR)) {
+          PronounsDomElement.inject(STREAMER_TITLE_CONTAINER_SELECTOR, pronouns);
         }
       }),
   ));
