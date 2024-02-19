@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Streamer Pronouns",
-  "description": "Display Pronouns on Twitch Channels",
-  "author": "Y.Heckmann",
-  "version": "1.0",
+  "description": "Display Pronouns on Twitch Profiles",
+  "author": "hecki97",
+  "version": "0.0.1",
   "icons": {
     "128": "icons/icon128.png",
     "48": "icons/icon48.png",
