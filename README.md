@@ -23,14 +23,15 @@ Download the newest release from https://github.com/hecki97/streamer-pronouns/re
 
 ### Chrome or Chromium-based Browsers
 
-1. Open `chrome://extensions` in your browser
-2. Enable `Developer Mode` in the upper right hand corner if it's not already on 
-3. Click on `Load Unpacked` at the top left hand side of the screen and select the downloaded zip file
-4. The extension should show up like this:
+1. Unpack the latest release after downloading it
+2. Open `chrome://extensions` in your browser
+3. Enable `Developer Mode` in the upper right hand corner if it's not already on 
+4. Click on `Load Unpacked` at the top left hand side of the screen and select the unpacked directory
+5. The extension should show up like this:
 
 ![Screen capture showing the loaded unpacked extension in the Chrome extension screen](doc/unpacked-extension-chrome.png)
 
-5. Visit the twitch profile of someone who uses Alejo Pereyra's [pronoun service](https://pronouns.alejo.io/)
+6. Visit the twitch profile of someone who uses Alejo Pereyra's [pronoun service](https://pronouns.alejo.io/)
 
 ### Firefox
 
