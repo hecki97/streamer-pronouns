@@ -1,6 +1,11 @@
 import { elementReady } from './util';
 import PronounsDomElement from './pronouns-dom-element';
-import { FULLSCREEN_THEATER_STREAMER_SELECTOR, STREAMER_TITLE_CONTAINER_SELECTOR, STREAMER_TITLE_SELECTOR } from './config';
+import {
+  FULLSCREEN_THEATER_STREAMER_SELECTOR,
+  STREAMER_TITLE_CONTAINER_SELECTOR,
+  STREAMER_TITLE_SELECTOR,
+  CHANNEL_INFO_BOX_SELECTOR,
+} from './config';
 import Pronouns from './pronouns';
 
 async function main() {
@@ -10,6 +15,11 @@ async function main() {
   let currentPath = document.location.pathname;
   let name = currentPath.slice(1);
   let pronouns = await Pronouns.get(name);
+
+  // Inject pronouns as soon as the channel info box is available
+  // (required for successful injection on offline channel pages)
+  elementReady(CHANNEL_INFO_BOX_SELECTOR)
+    .then(() => PronounsDomElement.inject(STREAMER_TITLE_CONTAINER_SELECTOR, pronouns));
 
   const observer = new MutationObserver((mutationRecords) => Promise.all(
     mutationRecords
