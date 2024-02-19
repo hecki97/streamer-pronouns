@@ -18,8 +18,10 @@ async function main() {
 
   // Inject pronouns as soon as the channel info box is available
   // (required for successful injection on offline channel pages)
-  elementReady(CHANNEL_INFO_BOX_SELECTOR)
-    .then(() => PronounsDomElement.inject(STREAMER_TITLE_CONTAINER_SELECTOR, pronouns));
+  if (currentPath !== '/') {
+    elementReady(CHANNEL_INFO_BOX_SELECTOR)
+      .then(() => PronounsDomElement.inject(STREAMER_TITLE_CONTAINER_SELECTOR, pronouns));
+  }
 
   const observer = new MutationObserver((mutationRecords) => Promise.all(
     mutationRecords
